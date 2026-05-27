@@ -1,6 +1,6 @@
 
 import PostCard from '../components/PostCard';
-import styles from './HomePage.module.css';
+import styles from '../styles/HomePage.module.css';
 
 const HomePage = () => {
   // Rich mock data featuring high-contrast design, clean workspaces and architectures

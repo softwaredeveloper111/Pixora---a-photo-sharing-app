@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Search, Heart, MessageCircle } from 'lucide-react';
-import styles from './ExplorePage.module.css';
+import styles from '../styles/ExplorePage.module.css';
 
 const ExplorePage = () => {
   const [searchQuery, setSearchQuery] = useState('');

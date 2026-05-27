@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal } from 'lucide-react';
-import styles from './PostCard.module.css';
+import styles from '../styles/PostCard.module.css';
 
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);

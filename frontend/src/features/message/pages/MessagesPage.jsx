@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import  { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, Send, Image, Smile, Phone, Video, Info } from 'lucide-react';
-import styles from './MessagesPage.module.css';
+import styles from '../styles/MessagesPage.module.css';
 
 const MessagesPage = () => {
   const [activeChatId, setActiveChatId] = useState(null);

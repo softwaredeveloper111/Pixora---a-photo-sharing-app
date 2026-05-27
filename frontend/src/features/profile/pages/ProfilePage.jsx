@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Settings, Grid, Bookmark, Users, Heart, MessageCircle } from 'lucide-react';
-import styles from './ProfilePage.module.css';
+import styles from '../styles/ProfilePage.module.css';
 
 const ProfilePage = () => {
   const { username } = useParams();

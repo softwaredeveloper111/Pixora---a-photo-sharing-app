@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import  { useState, useRef } from 'react';
 import { X, Upload, Image, ArrowRight } from 'lucide-react';
-import styles from './UploadModal.module.css';
+import styles from '../styles/UploadModal.module.css';
 
 const UploadModal = ({ onClose }) => {
   const [dragActive, setDragActive] = useState(false);

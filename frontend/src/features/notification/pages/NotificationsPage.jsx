@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Heart, MessageSquare, UserPlus, Check, X } from 'lucide-react';
-import styles from './NotificationsPage.module.css';
+import styles from '../styles/NotificationsPage.module.css';
 
 const NotificationsPage = () => {
   const [notifications, setNotifications] = useState([

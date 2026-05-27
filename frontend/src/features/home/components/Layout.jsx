@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { Home, Search, Compass, MessageSquare, Bell, User, PlusSquare, LogOut, X } from 'lucide-react';
 import UploadModal from '../../upload/components/UploadModal';
-import styles from './Layout.module.css';
+import styles from '../styles/Layout.module.css';
 
 const Layout = () => {
   const [isUploadOpen, setIsUploadOpen] = useState(false);
