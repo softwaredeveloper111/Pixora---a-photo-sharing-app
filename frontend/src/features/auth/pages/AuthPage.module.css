@@ -1,0 +1,152 @@
+.authContainer {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg);
+  padding: 24px;
+}
+
+.authCard {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.logoContainer {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+  background: linear-gradient(180deg, #ffffff 0%, #a1a1a1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.errorMessage {
+  background-color: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--error);
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.inputGroup label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forgotBtn {
+  font-size: 11px;
+  color: var(--text-secondary);
+  transition: color 0.15s ease;
+}
+
+.forgotBtn:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.inputGroup input {
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text);
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.inputGroup input:focus {
+  border-color: var(--accent);
+}
+
+.inputGroup input::placeholder {
+  color: #555555;
+}
+
+.submitBtn {
+  background-color: var(--accent);
+  color: #000000;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.submitBtn:hover {
+  background-color: transparent;
+  color: var(--text);
+}
+
+.toggleContainer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.toggleBtn {
+  font-weight: 500;
+  color: var(--text);
+  transition: text-decoration 0.15s ease;
+}
+
+.toggleBtn:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .authCard {
+    padding: 32px 20px;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+  }
+}

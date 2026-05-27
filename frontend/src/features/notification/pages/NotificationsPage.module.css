@@ -1,0 +1,188 @@
+.notificationsContainer {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(180deg, #ffffff 0%, #a1a1a1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notificationItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--card);
+  transition: all 0.25s ease;
+}
+
+.notificationItem:hover {
+  border-color: var(--border-hover);
+  background-color: var(--card-hover);
+}
+
+.rejectedItem {
+  opacity: 0.3;
+  transform: scale(0.98);
+}
+
+.leftCol {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.content {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+.username {
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.username:hover {
+  text-decoration: underline;
+}
+
+.commentText {
+  color: var(--text);
+  font-style: italic;
+}
+
+.time {
+  font-size: 11px;
+  color: #555555;
+}
+
+.rightCol {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+}
+
+.postPreview {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* Actions Button Panel */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.acceptBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--accent);
+  color: #000000;
+  border: 1px solid var(--accent);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.acceptBtn:hover {
+  background-color: transparent;
+  color: var(--text);
+}
+
+.rejectBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+}
+
+.rejectBtn:hover {
+  border-color: var(--error);
+  color: var(--error);
+  background-color: rgba(239, 68, 68, 0.08);
+}
+
+.statusText {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.statusTextRejected {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--error);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-secondary);
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+}
+
+.emptyState p {
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  .notificationItem {
+    border-radius: 2px;
+    padding: 12px 10px;
+  }
+}
