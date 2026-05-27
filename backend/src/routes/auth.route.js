@@ -25,7 +25,7 @@ const authRouter = express.Router();
  * @throws       {Object} 500 Internal server error 
  */
 
-authRouter.post("/api/auth" ,registerUserValidation ,registerUserController  )
+authRouter.post("/register" ,registerUserValidation ,registerUserController  )
 
 
 
