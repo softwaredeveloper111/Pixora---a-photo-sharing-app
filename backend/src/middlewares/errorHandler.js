@@ -1,4 +1,3 @@
-const config = require("../config/config")
 
 
 const errorHandler = (err, req, res, next) => {
