@@ -2,7 +2,7 @@ const express = require("express");
 const identifyingUser = require("../middlewares/auth.middleware")
 const checkObjectId = require("../validations/ObjectId.validator")
 const {followStatusValidation}  = require("../validations/follow.validator")
-const {sendFollowRequestController , modifiedFollowRequestController , getAllPendingRequest} = require("../controllers/follow.controller")
+const {sendFollowRequestController , modifiedFollowRequestController , getAllPendingRequest ,getFollowerListController , getFollowingListController } = require("../controllers/follow.controller")
 
 
 
@@ -25,8 +25,6 @@ const followRouter = express.Router();
  * @throws        500 internal server error
 */
 followRouter.post("/send/:id" , checkObjectId ,    identifyingUser , sendFollowRequestController  )
-
-
 
 
 /**
@@ -61,6 +59,41 @@ followRouter.get("/requests" ,  identifyingUser , getAllPendingRequest)
 
 
 
+/**
+ * @description   getting list of followers of any user
+ * @route   /api/follow/followers/:id
+ * @access     Public
+ * @method      GET
+ * 
+ * @param     {ObjectId} req.paramd.id   {UserId}
+ * 
+ * 
+ * @return  {Object} 200 getting all the followers of the user
+ * @returns  {Object} 400 validation faild
+ * @throws  {Object} 500 internal server error
+ */
+
+followRouter.get("/followers/:id", checkObjectId ,   identifyingUser , getFollowerListController) 
+
+
+
+
+
+/**
+ * @description   getting list of followers of any user
+ * @route   /api/follow/followers/:id
+ * @access     Public
+ * @method      GET
+ * 
+ * @param     {ObjectId} req.paramd.id   {UserId}
+ * 
+ * 
+ * @return  {Object} 200 getting all the followers of the user
+ * @returns  {Object} 400 validation faild
+ * @throws  {Object} 500 internal server error
+ */
+
+followRouter.get("/following/:id", checkObjectId ,   identifyingUser , getFollowingListController ) 
 
 
 
@@ -76,11 +109,3 @@ module.exports = followRouter;
 
 
 
-
-// POST   /api/follow/send/:userId        // follow request bhejo
-// POST   /api/follow/accept/:requestId   // accept karo
-// POST   /api/follow/reject/:requestId   // reject karo
-// DELETE /api/follow/remove/:userId      // unfollow karo
-// GET    /api/follow/requests            // apni pending requests dekho
-// GET    /api/follow/followers/:userId   // kisi ki followers list
-// GET    /api/follow/following/:userId   // kisi ki following list

@@ -126,10 +126,32 @@ const getAllPendingRequest = asyncWrapper(async(req,res)=>{
 
 
 
+const getFollowerListController = asyncWrapper(async(req,res)=>{
+    const userId = req.user._id;
+    const findFollowings = await followModel.find({following:userId,status:"accept"});
+    res.status(200).json({
+        succes:true,
+        message:"all following member list get succesfullly",
+        data:findFollowings,
+        statusCode:200
+    })
+})
+
+
+
+const getFollowingListController = asyncWrapper(async(req,res)=>{
+    const userId = req.user._id;
+    const findFollowers = await followModel.find({follower:userId,status:"accept"});
+    res.status(200).json({
+        succes:true,
+        message:"all followers get succesfullly",
+        data:findFollowers,
+        statusCode:200
+    })
+})
 
 
 
 
-
-module.exports = {sendFollowRequestController ,modifiedFollowRequestController ,getAllPendingRequest  }
+module.exports = {sendFollowRequestController ,modifiedFollowRequestController , getAllPendingRequest , getFollowerListController , getFollowingListController }
 
