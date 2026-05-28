@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const AppError = require('../utils/AppError');
 const config = require('../config/config')
 const userModel = require("../models/user.model")
-const asyncWrapper = require("./asyncWrapper")
+const asyncWrapper = require("./asyncWrapper.middleware")
 
 
 

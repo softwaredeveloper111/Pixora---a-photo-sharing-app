@@ -1,5 +1,5 @@
 const userModel = require("../models/user.model");
-const asyncWrapper = require("../middlewares/asyncWrapper");
+const asyncWrapper = require("../middlewares/asyncWrapper.middleware");
 const AppError = require('../utils/AppError')
 const jwt = require('jsonwebtoken')
 const config = require("../config/config")
@@ -46,7 +46,7 @@ const {identifiers, password} = req.body;
  
 const registerUser = await userModel.findOne({
   $or:[
-    {userame:identifiers},
+    {username:identifiers},
     {email:identifiers},
   ]
 }).select("+password");

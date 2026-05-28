@@ -1,7 +1,8 @@
 const express = require("express");
 const cookieParser = require("cookie-parser")
 const authRouter = require("./routes/auth.route")
-const errorHandler = require("./middlewares/errorHandler")
+const followRouter = require("./routes/follow.route")
+const errorHandler = require("./middlewares/errorHandler.middleware")
 
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(cookieParser());
 
 /** application routes */
 app.use("/api/auth", authRouter);
+app.use("/api/follow" , followRouter)
 
 
 
