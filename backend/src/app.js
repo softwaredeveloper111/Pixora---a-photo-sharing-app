@@ -1,7 +1,10 @@
 const express = require("express");
 const cookieParser = require("cookie-parser")
+
 const authRouter = require("./routes/auth.route")
 const followRouter = require("./routes/follow.route")
+const postRouter = require("./routes/post.route")
+
 const errorHandler = require("./middlewares/errorHandler.middleware")
 
 
@@ -19,6 +22,8 @@ app.use(cookieParser());
 /** application routes */
 app.use("/api/auth", authRouter);
 app.use("/api/follow" , followRouter)
+app.use("/api/posts", postRouter)
+
 
 
 
@@ -29,8 +34,9 @@ app.get("/health" , (req , res) => {
 
 
 
-/** error handler */
+/** global error handler */
 app.use(errorHandler);
+
 
 
 
