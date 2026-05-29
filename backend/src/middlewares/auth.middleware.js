@@ -2,16 +2,18 @@ const jwt = require("jsonwebtoken");
 const AppError = require('../utils/AppError');
 const config = require('../config/config')
 const userModel = require("../models/user.model")
-const asyncWrapper = require("./asyncWrapper.middleware")
 
 
 
-const identifyingUser = asyncWrapper(async (req, res, next) => {
+
+const identifyingUser = async (req, res, next) => {
   
-  const token = req.cookies?.token;
+ try {
+
+   const token = req.cookies?.token;
 
   if (!token) {
-    throw new AppError("Unauthorized access", 401);
+    throw new AppError("Unauthorized access | token not found", 401);
   }
 
   const decoded = jwt.verify(token, config.JWT_SECRET_KEY);
@@ -25,7 +27,15 @@ const identifyingUser = asyncWrapper(async (req, res, next) => {
   req.user = getUser;
 
   next();
-});
+  
+ } catch (error) {
+
+    throw new AppError("unthorized access | invalid token" , 401)
+ }
+
+};
+
+
 
 module.exports =identifyingUser;
 

@@ -25,7 +25,7 @@ if(!checkFollowingUserId){
 /** cancel the follow request - delete the document , if already followed with status:pending  */
 const isAlreadyFollowed = await followModel.findOne({ following:followingUserId , follower:followerUserId, status:"pending" });
 if(isAlreadyFollowed){
-    const deleteFollowedUser = await followModel.findOneAndDelete({following:followingUserId , follower:followerUserId, status:"pending"},{new:true})
+    const deleteFollowedUser = await followModel.findOneAndDelete({following:followingUserId , follower:followerUserId, status:"pending"},{new:true}).populate('following', 'fullname username email')
     return res.status(200).json({
         success:true,
         message:"cancel the follow request  successfully ",
@@ -38,7 +38,7 @@ if(isAlreadyFollowed){
 /** unfollow the person - delete the document , if already both are friend with status:accept */
 const isAlreadyFriend = await followModel.findOne({ following:followingUserId , follower:followerUserId, status:"accept" });
 if(isAlreadyFriend){
-    const deleteFollowedUser = await followModel.findOneAndDelete({following:followingUserId , follower:followerUserId, status:"accept"},{new:true})
+    const deleteFollowedUser = await followModel.findOneAndDelete({following:followingUserId , follower:followerUserId, status:"accept"},{new:true}).populate('following', 'fullname username email')
     return res.status(200).json({
         success:true,
         message:"Unfollow the user successfully ",
@@ -47,18 +47,26 @@ if(isAlreadyFriend){
     })
 }
 
-
+/** sending the follow request */
 
 const sendFollowRequest = await followModel.create({ following:followingUserId , follower:followerUserId})
+const populateSendFollowRequest = await sendFollowRequest.populate('following', 'fullname username email')
 
 return res.status(201).json({
     success:true,
     message:"follow request sending successfully",
     statusCode:201,
-    data:sendFollowRequest
+    data:populateSendFollowRequest
 })
 
 })
+
+
+
+
+
+
+
 
 
 
@@ -70,22 +78,24 @@ const modifiedFollowRequestController = asyncWrapper(async(req,res)=>{
     
     const check = await followModel.findById(requestId)
     if(!check){
-        throw new AppError("request not found" , 401)
+        throw new AppError("request not found" , 404)
     }
 
-   
-
-    if(!(check.status==="pending")){
-        throw new AppError("already modifed status",401);
-    }
-
-
+     
     if(check.following.toString() !== userId.toString()){
         throw new AppError("unthorized access",403)
     }
+
+
+    if(!(check.status==="pending")){
+        throw new AppError("already modifed status",400);
+    }
+
+
+    
   
     if(status==="accept"){
-        const updatedStatus = await followModel.findByIdAndUpdate(requestId , {status},{new:true})
+        const updatedStatus = await followModel.findByIdAndUpdate(requestId , {status},{new:true}).populate("follower","fullname username eamil")
         return res.status(200).json({
             success:true,
             message:"user accept your request successfully",
@@ -95,7 +105,7 @@ const modifiedFollowRequestController = asyncWrapper(async(req,res)=>{
     }
 
     if(status==="reject"){
-        const deleteDocument = await followModel.findByIdAndDelete(requestId);
+        const deleteDocument = await followModel.findByIdAndDelete(requestId).populate("follower" , "fullname username email");
         return res.status(200).json({
             success:true,
             message:"user reject your request",
@@ -110,13 +120,20 @@ const modifiedFollowRequestController = asyncWrapper(async(req,res)=>{
 
 
 
+
+
+
+
+
+
+
 const getAllPendingRequest = asyncWrapper(async(req,res)=>{
     const userId =req.user._id
 
-    const findRequests = await followModel.find({ following : userId ,status:"pending"});
+    const findRequests = await followModel.find({ following : userId ,status:"pending"}).populate("follower","fullname username email");
 
     return res.status(200).json({
-        success:false,
+        success:true,
         message:"get all pending requrest successfully",
         statusCode:200,
         data:findRequests 
@@ -126,12 +143,21 @@ const getAllPendingRequest = asyncWrapper(async(req,res)=>{
 
 
 
+
+
+
+
+
+
+
+
+
 const getFollowerListController = asyncWrapper(async(req,res)=>{
     const userId = req.user._id;
-    const findFollowings = await followModel.find({following:userId,status:"accept"});
+    const findFollowings = await followModel.find({following:userId,status:"accept"}).populate("follower","fullname username email");
     res.status(200).json({
         succes:true,
-        message:"all following member list get succesfullly",
+        message:"all follower member list get succesfullly",
         data:findFollowings,
         statusCode:200
     })
@@ -139,16 +165,29 @@ const getFollowerListController = asyncWrapper(async(req,res)=>{
 
 
 
+
+
+
+
+
+
+
+
 const getFollowingListController = asyncWrapper(async(req,res)=>{
     const userId = req.user._id;
-    const findFollowers = await followModel.find({follower:userId,status:"accept"});
+    const findFollowers = await followModel.find({follower:userId,status:"accept"}).populate("following","fullname username email");
     res.status(200).json({
         succes:true,
-        message:"all followers get succesfullly",
+        message:" get all following people succesfullly",
         data:findFollowers,
         statusCode:200
     })
 })
+
+
+
+
+
 
 
 

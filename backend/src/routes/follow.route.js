@@ -27,6 +27,12 @@ const followRouter = express.Router();
 followRouter.post("/send/:id" , checkObjectId ,    identifyingUser , sendFollowRequestController  )
 
 
+
+
+
+
+
+
 /**
  * @description   accept or rejec the request
  * @method         PATCH
@@ -45,6 +51,13 @@ followRouter.post("/send/:id" , checkObjectId ,    identifyingUser , sendFollowR
 followRouter.patch("/respond/:id" , checkObjectId , followStatusValidation ,  identifyingUser , modifiedFollowRequestController)
 
 
+
+
+
+
+
+
+
 /**
  * @description    apne saare pending request ko dekho jis jis ne tumme request veja hai
  * @Route           /api/follow/requests 
@@ -56,6 +69,14 @@ followRouter.patch("/respond/:id" , checkObjectId , followStatusValidation ,  id
  * @throws         {Object} 500 internal server error 
  */
 followRouter.get("/requests" ,  identifyingUser , getAllPendingRequest)
+
+
+
+
+
+
+
+
 
 
 
@@ -79,6 +100,12 @@ followRouter.get("/followers/:id", checkObjectId ,   identifyingUser , getFollow
 
 
 
+
+
+
+
+
+
 /**
  * @description   getting list of followers of any user
  * @route   /api/follow/followers/:id
@@ -94,6 +121,15 @@ followRouter.get("/followers/:id", checkObjectId ,   identifyingUser , getFollow
  */
 
 followRouter.get("/following/:id", checkObjectId ,   identifyingUser , getFollowingListController ) 
+
+
+
+
+
+
+
+
+
 
 
 

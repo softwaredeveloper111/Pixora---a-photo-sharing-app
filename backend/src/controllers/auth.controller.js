@@ -1,4 +1,6 @@
 const userModel = require("../models/user.model");
+const followModel = require("../models/follow.model")
+
 const asyncWrapper = require("../middlewares/asyncWrapper.middleware");
 const AppError = require('../utils/AppError')
 const jwt = require('jsonwebtoken')
@@ -52,12 +54,12 @@ const registerUser = await userModel.findOne({
 }).select("+password");
 
 if(!registerUser){
-  throw new AppError("user not found" , 404);
+  throw new AppError("invalid credential | user not found" , 401);
 }
 
 const matchPassword = await registerUser.comparePassword(password);
 if(!matchPassword){
-  throw new AppError("invalid credentials",401)
+  throw new AppError("invalid credentials | wrong password ",401)
 }
 
 const token = jwt.sign({id:registerUser._id} , config.JWT_SECRET_KEY , {expiresIn:"1d"});
@@ -78,11 +80,19 @@ return res.status(200).json({
 const getMeUserController = asyncWrapper(async(req,res)=>{
 
   const user = req.user;
+
+  const followers = await followModel.find({following:user._id,status:"accept"}).populate("follower","fullname username email")
+  const following = await followModel.find({follower:user._id,status:"accept"}).populate("following","fullname username email")
+
   return res.status(200).json({
     success:true,
     message:"user get successfully",
     statusCode:200,
-    data:user
+    data:{
+      user,
+      followers,
+      following
+    }
   }) 
 
 })
@@ -99,6 +109,9 @@ const logoutUserController = asyncWrapper(async(req,res)=>{
     data:null
   })
 })
+
+
+
 
 
 module.exports = {registerUserController ,loginUserController , getMeUserController , logoutUserController}
