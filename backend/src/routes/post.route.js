@@ -5,7 +5,7 @@ const handleFileMulter = require("../middlewares/multer.middleware")
 const checkObjectId = require("../validations/ObjectId.validator")
 const {postCreateValidation} = require("../validations/post.validator")
 
-const {createPostController}  =require("../controllers/post.controller")
+const {createPostController ,feedPostController , explorePostController ,singlePostController , deletePostController }  =require("../controllers/post.controller")
 
 
 const postRouter = express.Router();
@@ -30,6 +30,85 @@ postRouter.post("/create" , identifyingUser ,  handleFileMulter , postCreateVali
 
 
 
+
+
+
+/**
+ * @description     home feed - followed users ki posts
+ * @route          /api/posts/feed             
+ * @method         GET
+ * @access          Private
+ * 
+ * @returns      {Object}  {200} successfully see the feed
+ * 
+ * 
+ * @throws        {Object}  500 Internal server Error
+ */
+
+postRouter.get('/feed' , identifyingUser , feedPostController)
+
+
+
+
+
+/**
+ * @description   explore all public posts except following user posts
+ * @route          /api/posts/explore             
+ * @method          GET
+ * @access         Private
+ * 
+ * @returns      {Object}  {200} successfully see the explore feed
+ * 
+ * 
+ * @throws        {Object}  500 Internal server Error
+ */
+
+postRouter.get('/explore' , identifyingUser , explorePostController)
+
+
+
+
+
+
+/**
+ * @description    single post fetch
+ * @route         /api/posts/:id
+ * @method        GET
+ * @access         Private
+ * 
+ * @param           {ObjectId} req.params.id   {postId}
+ * 
+ * @returns       {Object}  {200} successfully see the post
+ * @returns       {Object}  {400} validation failed error
+ * 
+ * @returns       {Object}  {500} Internal sever error  
+ * 
+ */
+
+postRouter.get('/:id' , identifyingUser , checkObjectId , singlePostController)
+
+
+
+
+
+
+
+
+/**
+ * @description     user can delete their own post
+ * @route           /api/posts/:id
+ * @method           DELETE  
+ * @access           Private
+ * 
+ * @param           {ObjectId} req.params.id   {postId}
+ * 
+ * @returns         {Object}  200 sucessfully deleted the post
+ * @returns         {Object}  400  validation faliled
+ * 
+ * @returns         {Object}  500 Internal server error
+ */
+
+postRouter.delete('/:id' , identifyingUser , checkObjectId , deletePostController)
 
 
 
