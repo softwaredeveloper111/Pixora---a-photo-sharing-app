@@ -81,7 +81,7 @@ followRouter.get("/requests" ,  identifyingUser , getAllPendingRequest)
 
 
 /**
- * @description   getting list of followers of any user
+ * @description   getting list of followers[member list] of any user
  * @route   /api/follow/followers/:id
  * @access     Public
  * @method      GET
@@ -107,7 +107,7 @@ followRouter.get("/followers/:id", checkObjectId ,   identifyingUser , getFollow
 
 
 /**
- * @description   getting list of followers of any user
+ * @description   getting list of following[member list] of any user
  * @route   /api/follow/followers/:id
  * @access     Public
  * @method      GET

@@ -95,7 +95,7 @@ const modifiedFollowRequestController = asyncWrapper(async(req,res)=>{
     
   
     if(status==="accept"){
-        const updatedStatus = await followModel.findByIdAndUpdate(requestId , {status},{new:true}).populate("follower","fullname username eamil")
+        const updatedStatus = await followModel.findByIdAndUpdate(requestId , {status},{new:true}).populate("follower","fullname username email")
         return res.status(200).json({
             success:true,
             message:"user accept your request successfully",
@@ -153,7 +153,13 @@ const getAllPendingRequest = asyncWrapper(async(req,res)=>{
 
 
 const getFollowerListController = asyncWrapper(async(req,res)=>{
-    const userId = req.user._id;
+    const userId = req.params.id;
+    const isValidUserId = await userModel.findById(userId);
+    
+    if(!isValidUserId){
+        throw new AppError("user not found",404)
+    }
+
     const findFollowings = await followModel.find({following:userId,status:"accept"}).populate("follower","fullname username email");
     res.status(200).json({
         succes:true,
@@ -174,7 +180,13 @@ const getFollowerListController = asyncWrapper(async(req,res)=>{
 
 
 const getFollowingListController = asyncWrapper(async(req,res)=>{
-    const userId = req.user._id;
+    const userId = req.params.id;
+    const isValidUserId = await userModel.findById(userId);
+    
+    if(!isValidUserId){
+        throw new AppError("user not found",404)
+    }
+    
     const findFollowers = await followModel.find({follower:userId,status:"accept"}).populate("following","fullname username email");
     res.status(200).json({
         succes:true,
