@@ -52,7 +52,7 @@ postRouter.get('/feed' , identifyingUser , feedPostController)
 
 
 /**
- * @description   explore all public posts except following user posts
+ * @description   explore all public posts except following user posts [all public posts except following user]
  * @route          /api/posts/explore             
  * @method          GET
  * @access         Private
@@ -107,7 +107,6 @@ postRouter.get('/:id' , identifyingUser , checkObjectId , singlePostController)
  * 
  * @returns         {Object}  500 Internal server error
  */
-
 postRouter.delete('/:id' , identifyingUser , checkObjectId , deletePostController)
 
 

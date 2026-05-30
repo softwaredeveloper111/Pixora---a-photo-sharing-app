@@ -41,7 +41,7 @@ likeRouter.post("/:id" , identifyLoggedInUser , checkObjectId , toggleLikeContro
  * @method          GET 
  * @access          Private
  * 
- * @param          {ObjectId} req.param.id 
+ * @param          {ObjectId} req.param.id {Post id}
  * 
  * @returns        {Object} 200 successfully get all user's list
  * @returns        {Object} 400 validation failed

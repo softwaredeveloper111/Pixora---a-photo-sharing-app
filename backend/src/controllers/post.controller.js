@@ -14,6 +14,8 @@ const uploadImageToImageKit = require("../config/imageKit")
 
 const createPostController = asyncWrapper(async(req,res)=>{
 
+  console.log("i am here.")
+
   const userId = req.user._id;
 
   const imageFile = req.file;
@@ -24,10 +26,7 @@ const createPostController = asyncWrapper(async(req,res)=>{
   ? JSON.parse(req.body.hashtags)
   : [];
 
-  // console.log(userId);
-  // console.log(imageFile);
-  // console.log(caption);
-  // console.log(hashtags); 
+ 
 
 
 
