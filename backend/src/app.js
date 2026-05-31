@@ -6,6 +6,8 @@ const followRouter = require("./routes/follow.route")
 const postRouter = require("./routes/post.route")
 const likeRouter = require("./routes/like.route")
 const savedRouter = require("./routes/saved.route")
+const  commentRouter = require("./routes/comment.route")
+
 
 
 const errorHandler = require("./middlewares/errorHandler.middleware")
@@ -28,6 +30,10 @@ app.use("/api/follow" , followRouter)
 app.use("/api/posts", postRouter)
 app.use("/api/posts/like", likeRouter)
 app.use("/api/posts/saved",savedRouter)
+app.use("/api/posts/comment" , commentRouter)
+
+
+
 
 
 /** healthcheck router */

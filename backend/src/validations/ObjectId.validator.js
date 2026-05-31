@@ -1,15 +1,19 @@
- const {param} = require("express-validator")
- const expressValidatorHandleError = require("./error.validator")
+const { param } = require("express-validator");
+const expressValidatorHandleError = require("./error.validator");
 
- const checkObjectId = [
-    param("id")
+const validateObjectId = (fieldName = "id") => [
+  param(fieldName)
     .trim()
     .notEmpty()
-    .withMessage("Id is required")
+    .withMessage(`${fieldName} is required`)
     .isMongoId()
-    .withMessage("Invalid id"),
-    expressValidatorHandleError
- ]
+    .withMessage(`Invalid ${fieldName}`),
+
+  expressValidatorHandleError
+];
+
+module.exports = validateObjectId;
 
 
- module.exports = checkObjectId
+
+
