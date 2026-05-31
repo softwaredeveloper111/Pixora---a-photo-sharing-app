@@ -2,10 +2,29 @@ const express = require("express");
 const identifyingUser = require("../middlewares/auth.middleware");
 const ObjecIdValidation = require("../validations/ObjectId.validator")
 
-const {savedToggleController} = require("../controllers/saved.controller")
+const {savedToggleController , getSavedPostsController} = require("../controllers/saved.controller")
 
 
 const savedRouter = express.Router();
+
+
+
+
+
+/**
+ * @description       see all the saved post collection
+ * @route            /api/posts/saved
+ * @method           GET
+ * @access           Private
+ * 
+ * @returns          {Object} 200 all the saved post successfully fetched 
+ * 
+ * @throws           {Object} internal server error
+ */
+
+savedRouter.get("/get", identifyingUser , getSavedPostsController)
+
+
 
 
 
@@ -25,7 +44,6 @@ const savedRouter = express.Router();
  */
 
 savedRouter.post('/:id' , identifyingUser , ObjecIdValidation , savedToggleController )
-
 
 
 

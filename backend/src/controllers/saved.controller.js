@@ -29,7 +29,17 @@ const savedToggleController = asyncWraaper(async(req,res)=>{
 
   /** saved post */
   const savedPost = await savedModel.create({user:userId, post:postId});
-  const populateSavedPost = await savedPost.populate("post" , "user image caption hashtags")
+
+  const populateSavedPost = await savedPost.populate({
+  
+       path:"post",
+       select:"user image caption",
+       populate: {
+             path: "user",
+             select: "username fullname email"
+       }
+})
+
   return res.status(201).json({
     success:true,
     message:"post saved successfully",
@@ -41,4 +51,19 @@ const savedToggleController = asyncWraaper(async(req,res)=>{
 
 
 
-module.exports = {savedToggleController}
+const getSavedPostsController = asyncWraaper(async(req , res)=>{
+  const userId = req.user._id;
+  const savedPosts = await savedModel.find({user:userId}).populate({path:"post",select:"caption image user hashtags" , populate:{path:"user" , select:"username fullname email"}}) ;
+  return res.status(200).json({
+    success:true,
+    message:"user saved posts fetch successfully",
+    statusCode:200,
+    data:savedPosts,
+  })
+})
+
+
+
+
+
+module.exports = {savedToggleController ,getSavedPostsController}
