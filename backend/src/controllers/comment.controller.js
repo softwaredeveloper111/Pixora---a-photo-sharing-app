@@ -95,7 +95,13 @@ const getAllCommentsController = asyncWrapper(async(req,res)=>{
     throw new AppError("post is not found" , 404);
   };
 
-  const fetchedComment = await commentModel.find({post:postId});
+  const fetchedComment = await commentModel.find({post:postId}).populate([
+    
+    {
+      path:"user",
+      select:"username fullname email profilePhoto"
+    }
+  ]);
   return res.status(200).json({
     success:true,
     message:"fetch all comment successfully",
