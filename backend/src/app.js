@@ -7,13 +7,21 @@ const postRouter = require("./routes/post.route")
 const likeRouter = require("./routes/like.route")
 const savedRouter = require("./routes/saved.route")
 const  commentRouter = require("./routes/comment.route")
+const  messageRouter = require("./routes/message.route")
+
 
 
 
 const errorHandler = require("./middlewares/errorHandler.middleware")
 
 
+
+
+
 const app = express();
+
+
+
 
 
 /** application middlewares */
@@ -31,7 +39,7 @@ app.use("/api/posts", postRouter)
 app.use("/api/posts/like", likeRouter)
 app.use("/api/posts/saved",savedRouter)
 app.use("/api/posts/comment" , commentRouter)
-
+app.use("/api/messages" , messageRouter)
 
 
 
