@@ -3,11 +3,16 @@ require("dotenv").config();
 
 const config = {
 
-
+/** system enviroment */
 NODE_ENV: process.env.NODE_ENV || "development",
 
-
+/** port */
 PORT: process.env.PORT || 3000,
+
+
+/** frontend url */
+CLIENT_URL:process.env.CLIENT_URL || "http://localhost:5173",
+
 
 /** MONGODB  */
 MONGO_URI:process.env.MONGO_URI,

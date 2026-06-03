@@ -15,7 +15,9 @@ const messageSchema = new mongoose.Schema({
 
     text:{
         type:String,
-        required:[true,'text of the message should be required']
+        minlength:[1,"message should be at least 1 character long"],
+        maxlength:[1000,"message should be at most 1000 characters long"],
+        required:[true,'message is required']
     },
     seen:{
         type:Boolean,
