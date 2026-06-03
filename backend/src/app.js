@@ -8,7 +8,7 @@ const likeRouter = require("./routes/like.route")
 const savedRouter = require("./routes/saved.route")
 const  commentRouter = require("./routes/comment.route")
 const  messageRouter = require("./routes/message.route")
-
+const userRouter = require("./routes/user.route")
 
 
 
@@ -40,6 +40,8 @@ app.use("/api/posts/like", likeRouter)
 app.use("/api/posts/saved",savedRouter)
 app.use("/api/posts/comment" , commentRouter)
 app.use("/api/messages" , messageRouter)
+app.use("/api/users" , userRouter)
+
 
 
 

@@ -1,4 +1,3 @@
-
 const multer = require("multer")
 const AppError = require("../utils/AppError")
 
@@ -13,22 +12,37 @@ const upload = multer({
   }) 
 
 
-const handleMulterError = (req, res, next) => {
-  upload.single("image")(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      if (err.code === "LIMIT_FILE_SIZE") {
-        return next(new AppError("File size must not exceed 5MB",400));
+const multerErrorHandler = (multerMiddleware) => {
+  return (req, res, next) => {
+    multerMiddleware(req, res, (err) => {
+      if (err instanceof multer.MulterError) {
+        if (err.code === "LIMIT_FILE_SIZE") {
+          return next(
+            new AppError("File size must not exceed 5MB", 400)
+          );
+        }
+
+        return next(err);
       }
-      return next(err);
-    }
 
-    if (err) {
-      return next(err);
-    }
+      if (err) {
+        return next(err);
+      }
 
-    next();
-  });
+      next();
+    });
+  };
 };
 
+const multerPostHandler = multerErrorHandler(upload.single('image'))
 
-module.exports = handleMulterError;
+
+const multerUserProfileHandler = multerErrorHandler(
+  upload.fields([
+    { name: "profilePhoto", maxCount: 1 },
+    { name: "bannerPhoto", maxCount: 1 },
+  ])
+);
+
+
+module.exports = { multerPostHandler  ,  multerUserProfileHandler };
