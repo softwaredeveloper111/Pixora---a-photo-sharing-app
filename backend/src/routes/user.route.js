@@ -13,30 +13,6 @@ const userRouter = express.Router();
 
 
 /**
- * @description  Jab tum kisi ka username pe click karte ho — uska profile page open hota hai. Wahan uska naam, bio, profile photo, followers/following count aur posts grid dikhta hai. Yeh route woh sab data return karta hai.
- * @method     GET 
- * @route     /api/users/:userId
- * @access    Private
- * 
- * @param      {ObjectId} req.params.userId;
- * 
- * @returns    {Object} 200 Success
- * @returns    {Object} 401 Invalid token
- * @returns    {Object} 404 User Not Found 
- * @returns    {Object} 400 validation failed
- * 
- *
- * @throws     {Object} Internal server error 
- * 
- */
-
-userRouter.get("/:userId" , identifyingUser ,   validateObjectId("userId") , getProfileController )
-
-
-
-
-
-/**
  * @description    loggedin user can update her/him profile only
  * @method        PUT 
  * @route         /api/users/profile
@@ -65,12 +41,34 @@ userRouter.put("/profile", identifyingUser ,  multerUserProfileHandler  , Profil
  * @access     private
  * @method      GET 
  * 
- * @returns     {200} sucessfully fetch user name
+ * @returns     {Object} 200  sucessfully fetch user name
  * @throws      {object} 500 Internal server error
  */
 
 userRouter.get("/search" , identifyingUser , searchUsernameController)
 
+
+
+
+/**
+ * @description  Jab tum kisi ka username pe click karte ho — uska profile page open hota hai. Wahan uska naam, bio, profile photo, followers/following count aur posts grid dikhta hai. Yeh route woh sab data return karta hai.
+ * @method     GET 
+ * @route     /api/users/:userId
+ * @access    Private
+ * 
+ * @param      {ObjectId} req.params.userId;
+ * 
+ * @returns    {Object} 200 Success
+ * @returns    {Object} 401 Invalid token
+ * @returns    {Object} 404 User Not Found 
+ * @returns    {Object} 400 validation failed
+ * 
+ *
+ * @throws     {Object} Internal server error 
+ * 
+ */
+
+userRouter.get("/:userId" , identifyingUser ,   validateObjectId("userId") , getProfileController )
 
 
 

@@ -121,7 +121,8 @@ const searchUsernameController = asyncWrapper(async(req,res)=>{
   /** escape special character for security purpose */
   const escapedUsername = username.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const users = await userModel.find({
-    username:{ $regex: escapedUsername, $options: "i" },
+    username:{ $regex: escapedUsername, $options: "i" }, 
+    _id:{$ne:req.user._id}
   }) 
   .select("username profilePhoto bio")
   .limit(10);
