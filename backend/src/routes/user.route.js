@@ -1,8 +1,8 @@
 const express = require("express");
 const identifyingUser = require("../middlewares/auth.middleware");
 const  validateObjectId = require("../validations/ObjectId.validator")
-const handleFileMulter = require("../middlewares/multer.middleware")
-const {getProfileController , userProfileUpdateController} = require("../controllers/user.controller")
+const {multerUserProfileHandler} = require("../middlewares/multer.middleware")
+const {getProfileController , ProfileUpdateController} = require("../controllers/user.controller")
 
 
 
@@ -54,7 +54,7 @@ userRouter.get("/:userId" , identifyingUser ,   validateObjectId("userId") , get
  * @throws        {Object} 500 Internal server error.
  */
 
-userRouter.put("/profile", identifyingUser ,  handleFileMulter  ,  userProfileUpdateController )
+userRouter.put("/profile", identifyingUser ,  multerUserProfileHandler  , ProfileUpdateController )
 
 
 

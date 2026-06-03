@@ -1,6 +1,6 @@
 const express = require("express");
 const identifyingUser = require("../middlewares/auth.middleware")
-const handleFileMulter = require("../middlewares/multer.middleware")
+const {multerPostHandler} = require("../middlewares/multer.middleware")
 
 const checkObjectId = require("../validations/ObjectId.validator")
 const {postCreateValidation} = require("../validations/post.validator")
@@ -26,7 +26,7 @@ const postRouter = express.Router();
  *  
  */
 
-postRouter.post("/create" , identifyingUser ,  handleFileMulter , postCreateValidation ,  createPostController )
+postRouter.post("/create" , identifyingUser ,  multerPostHandler , postCreateValidation ,  createPostController )
 
 
 

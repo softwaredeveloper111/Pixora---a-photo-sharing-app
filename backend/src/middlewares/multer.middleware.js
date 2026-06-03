@@ -40,7 +40,7 @@ const multerPostHandler = multerErrorHandler(upload.single('image'))
 const multerUserProfileHandler = multerErrorHandler(
   upload.fields([
     { name: "profilePhoto", maxCount: 1 },
-    { name: "bannerPhoto", maxCount: 1 },
+    { name: "coverPhoto", maxCount: 1 },
   ])
 );
 

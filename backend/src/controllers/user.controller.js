@@ -3,8 +3,7 @@ const followModel = require("../models/follow.model");
 const postModel = require("../models/post.model")
 const asyncWrapper = require("../middlewares/asyncWrapper.middleware")
 const AppError = require("../utils/AppError")
-
-
+const uploadToImageKit = require("../config/imageKit")
 
 
 
@@ -51,14 +50,65 @@ const getProfileController = asyncWrapper(async(req,res)=>{
 
 
 
-
-const userProfileUpdateController = asyncWrapper(async(req,res)=>{
+const ProfileUpdateController = asyncWrapper(async(req,res)=>{
     const loggedinUser = req.user._id;
-    console.log(req.file);
-    console.log(req.body);
-    
+  
+    const {fullname,bio} = req.body;
+    const {profilePhoto,coverPhoto} = req.files || {};
+
+  
+
+
+    const [profilePhotoUrl, coverPhotoUrl] = await Promise.all([
+  profilePhoto?.[0]
+    ? uploadToImageKit(profilePhoto[0].buffer)
+    : Promise.resolve(null),
+
+  coverPhoto?.[0]
+    ? uploadToImageKit(coverPhoto[0].buffer)
+    : Promise.resolve(null),
+]);
+  
+// console.log(profilePhotoUrl?.url)
+// console.log(coverPhotoUrl?.url)
+// console.log(fullname)
+// console.log(bio)
+
+const updateData = {};
+
+if (fullname !== undefined) {
+  updateData.fullname = fullname;
+}
+
+if (bio !== undefined) {
+  updateData.bio = bio;
+}
+
+if (profilePhotoUrl?.url) {
+  updateData.profilePhoto = profilePhotoUrl.url;
+}
+
+if (coverPhotoUrl?.url) {
+  updateData.coverPhoto = coverPhotoUrl.url;
+}
+
+const updatedUserProfile = await userModel.findByIdAndUpdate(loggedinUser , updateData, {new:true})
+
+return res.status(200).json({
+    success:true,
+    message:"user profile updated successfully",
+    statusCode:200,
+    data:updatedUserProfile
+})
+
 })
 
 
 
-module.exports = {getProfileController ,userProfileUpdateController}
+
+
+
+
+
+
+module.exports = {getProfileController ,ProfileUpdateController}
