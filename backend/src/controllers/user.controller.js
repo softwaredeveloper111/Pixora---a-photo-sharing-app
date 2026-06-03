@@ -106,9 +106,36 @@ return res.status(200).json({
 
 
 
+const searchUsernameController = asyncWrapper(async(req,res)=>{
+  const {username}  = req.query;
+
+   if (!username?.trim() || username.trim().length < 2) {
+    return res.status(200).json({
+      success:true,
+      message:"result fetch sucessfully",
+      statusCode:200,
+      data:[]
+    });
+  }
+  
+  /** escape special character for security purpose */
+  const escapedUsername = username.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const users = await userModel.find({
+    username:{ $regex: escapedUsername, $options: "i" },
+  }) 
+  .select("username profilePhoto bio")
+  .limit(10);
+
+   return res.status(200).json({
+      success:true,
+      message:"result fetch sucessfully",
+      statusCode:200,
+      data:users
+    });
+
+})
 
 
 
 
-
-module.exports = {getProfileController ,ProfileUpdateController}
+module.exports = {getProfileController ,ProfileUpdateController ,searchUsernameController}

@@ -2,7 +2,7 @@ const express = require("express");
 const identifyingUser = require("../middlewares/auth.middleware");
 const  validateObjectId = require("../validations/ObjectId.validator")
 const {multerUserProfileHandler} = require("../middlewares/multer.middleware")
-const {getProfileController , ProfileUpdateController} = require("../controllers/user.controller")
+const {getProfileController , ProfileUpdateController , searchUsernameController} = require("../controllers/user.controller")
 
 
 
@@ -56,6 +56,20 @@ userRouter.get("/:userId" , identifyingUser ,   validateObjectId("userId") , get
 
 userRouter.put("/profile", identifyingUser ,  multerUserProfileHandler  , ProfileUpdateController )
 
+
+
+
+/**
+ * @description  Search bar mein koi username type karo — yeh route us username se match karne wale users return karega.
+ * @route      /api/users/search
+ * @access     private
+ * @method      GET 
+ * 
+ * @returns     {200} sucessfully fetch user name
+ * @throws      {object} 500 Internal server error
+ */
+
+userRouter.get("/search" , identifyingUser , searchUsernameController)
 
 
 
