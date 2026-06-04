@@ -6,22 +6,27 @@ const notificationSchema = new mongoose.Schema({
     /** jisse notification mila, like mujhe mila notification */
     recipient:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'User',
+        required:true,
     },
     /** kisne notification ko trigger kiey ya diya */
     sender:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        ref:"User",
+        required:true,
     },
 
     /** "like" | "comment" | "follow_request" | "follow_accepted" */
     type:{
         type:String,
+        enum: ["like", "comment", "follow_request", "follow_accepted"],
+        required:true
     },
   
     post:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Post"
+        ref:"Post",
+        default:null, /** only for like and comment */
     },
 
     read:{
