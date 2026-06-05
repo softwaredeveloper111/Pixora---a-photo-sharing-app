@@ -5,7 +5,7 @@ const AppError = require("../utils/AppError");
 
 
 const getYouAllNotifications = asyncWrapper(async(req,res)=>{
-const notifications = notificationModel.find({ recipient: req.user._id })
+const notifications = await notificationModel.find({ recipient: req.user._id })
   .populate("sender", "username profilePhoto")
   .populate("post", "image")
   .sort({ createdAt: -1 });

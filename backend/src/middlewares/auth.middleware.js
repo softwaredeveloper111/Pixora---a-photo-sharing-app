@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const AppError = require('../utils/AppError');
 const config = require('../config/config')
 const userModel = require("../models/user.model")
-
+const redis = require("../config/redis")
 
 
 
@@ -16,12 +16,18 @@ const identifyingUser = async (req, res, next) => {
     throw new AppError("Unauthorized access | token not found", 401);
   }
 
+  const isBlackListTOken = await redis.get(token);
+
+  if(isBlackListTOken){
+    throw new AppError("unauthorized access | invalid token", 401)
+  }
+
   const decoded = jwt.verify(token, config.JWT_SECRET_KEY);
 
   const getUser = await userModel.findById(decoded.id);
 
   if (!getUser) {
-    throw new AppError("Invalid credentials", 401);
+    throw new AppError("Unthorized access | Invalid credentials", 401);
   }
 
   req.user = getUser;

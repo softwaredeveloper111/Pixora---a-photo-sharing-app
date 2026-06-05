@@ -3,6 +3,8 @@ const app = require("./src/app");
 const connectToDB = require('./src/config/db');
 const {createServer} = require("http")
 const {initSocket} = require("./src/socket/socket")
+require("./src/config/redis")
+
 
 
 const PORT = config["PORT"];

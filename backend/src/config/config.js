@@ -28,6 +28,14 @@ JWT_SECRET_KEY:process.env.JWT_SECRET_KEY,
 /** IMAGEKIT */
 IMAGEKIT_PUBLIC_KEY:process.env.IMAGEKIT_PUBLIC_KEY,
 
+
+/** REDIS */
+REDIS_HOST:process.env.REDIS_HOST,
+REDIS_PORT:process.env.REDIS_PORT,
+REDIS_PASSWORD:process.env.REDIS_PASSWORD,
+
+
+
 }
 
 

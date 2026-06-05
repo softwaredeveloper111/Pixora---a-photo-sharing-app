@@ -1,10 +1,14 @@
 const userModel = require("../models/user.model");
-const followModel = require("../models/follow.model")
+const followModel = require("../models/follow.model");
+const postModel = require("../models/post.model")
 
 const asyncWrapper = require("../middlewares/asyncWrapper.middleware");
 const AppError = require('../utils/AppError')
 const jwt = require('jsonwebtoken')
-const config = require("../config/config")
+const config = require("../config/config");
+
+
+const redis = require("../config/redis")
 
 
 
@@ -79,20 +83,22 @@ return res.status(200).json({
 
 const getMeUserController = asyncWrapper(async(req,res)=>{
 
-  const user = req.user;
+  const user = req.user.toObject();
+ 
+  const followers = await followModel.countDocuments({following:user._id,status:"accept"});
+  const following = await followModel.countDocuments({follower:user._id,status:"accept"});
+  const posts = await postModel.countDocuments({user:user._id});
+  
+  user.followers = followers;
+  user.following = following;
+  user.posts = posts;
 
-  const followers = await followModel.find({following:user._id,status:"accept"}).populate("follower","fullname username email")
-  const following = await followModel.find({follower:user._id,status:"accept"}).populate("following","fullname username email")
 
   return res.status(200).json({
     success:true,
     message:"user get successfully",
     statusCode:200,
-    data:{
-      user,
-      followers,
-      following
-    }
+    data:user
   }) 
 
 })
@@ -101,7 +107,16 @@ const getMeUserController = asyncWrapper(async(req,res)=>{
 
 
 const logoutUserController = asyncWrapper(async(req,res)=>{
-  res.clearCookie("token");
+  const token = req.cookies?.token;
+  if(token){
+    await redis.set(token , Date.now().toString() , "EX" , 60*60*24);
+  }
+  res.clearCookie("token" ,{
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+
   return res.status(200).json({
     success:true,
     message:"user logged out successfully",

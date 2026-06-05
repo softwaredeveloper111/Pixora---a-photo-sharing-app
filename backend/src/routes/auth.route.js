@@ -62,7 +62,6 @@ authRouter.post("/login", loginUserValidation ,loginUserController)
  * 
  * @returns      {Object} 200 successfully logged out user
  * @returns      {Object} 401 unauthorized -user not logged in
- * @returns      {Object} 400 validation error
  * 
  * @throws       {Object} 500 Internal server error 
  */
@@ -81,7 +80,7 @@ authRouter.post("/logout", identifyingUser  ,logoutUserController)
  * @route        /api/auth/me
  * 
  * @returns      {Object} 200 successfully get user profile
- * @returns      {Object} 401 unauthorized -user not logged in
+ * @returns      {Object} 401 unauthorized access -user not logged in
  * @returns      {Object} 404 user not found
  * 
  * @throws       {Object} 500 Internal server error 
