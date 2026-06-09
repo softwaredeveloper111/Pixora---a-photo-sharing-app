@@ -24,7 +24,7 @@ const followRouter = express.Router();
  * 
  * @throws        500 internal server error
 */
-followRouter.post("/send/:id" , checkObjectId ,    identifyingUser , sendFollowRequestController  )
+followRouter.post("/send/:userId" , checkObjectId("userId") ,    identifyingUser , sendFollowRequestController  )
 
 
 
@@ -48,7 +48,7 @@ followRouter.post("/send/:id" , checkObjectId ,    identifyingUser , sendFollowR
  * @throws        500 internal server error
  */
 
-followRouter.patch("/respond/:id" , checkObjectId , followStatusValidation ,  identifyingUser , modifiedFollowRequestController)
+followRouter.patch("/respond/:requestId" , checkObjectId("requestId") , followStatusValidation ,  identifyingUser , modifiedFollowRequestController)
 
 
 
@@ -94,7 +94,7 @@ followRouter.get("/requests" ,  identifyingUser , getAllPendingRequest)
  * @throws  {Object} 500 internal server error
  */
 
-followRouter.get("/followers/:id", checkObjectId ,   identifyingUser , getFollowerListController) 
+followRouter.get("/followers/:userId", checkObjectId("userId") ,   identifyingUser , getFollowerListController) 
 
 
 
@@ -120,7 +120,7 @@ followRouter.get("/followers/:id", checkObjectId ,   identifyingUser , getFollow
  * @throws  {Object} 500 internal server error
  */
 
-followRouter.get("/following/:id", checkObjectId ,   identifyingUser , getFollowingListController ) 
+followRouter.get("/following/:userId", checkObjectId("userId") ,   identifyingUser , getFollowingListController ) 
 
 
 
