@@ -1,4 +1,5 @@
 const postModel = require("../models/post.model");
+const userModel = require("../models/user.model")
 const followModel = require("../models/follow.model")
 const asyncWrapper = require("../middlewares/asyncWrapper.middleware")
 const AppError = require("../utils/AppError");
@@ -27,9 +28,6 @@ const createPostController = asyncWrapper(async(req,res)=>{
   : [];
 
  
-
-
-
   const uploadResult = await uploadImageToImageKit(imageFile.buffer);
   
   if(!uploadResult || !uploadResult.url){
@@ -43,7 +41,7 @@ const createPostController = asyncWrapper(async(req,res)=>{
     hashtags
   })
 
-  const populateCreatePost = await createPost.populate("user" , "username fullname email")
+  const populateCreatePost = await createPost.populate("user" , "username fullname email profilePhoto coverPhoto")
 
 
   
@@ -71,7 +69,7 @@ const followingIds = following.map(item=>item.following);
 
 const posts = await postModel.find({
   user:{$in:followingIds}
-}).sort({ createdAt: -1 }).populate("user" , "username fullname email")
+}).sort({ createdAt: -1 }).populate("user" , "username fullname email profilePhoto coverPhoto")
 
 res.status(200).json({
   success:true,
@@ -96,7 +94,7 @@ const explorePostController = asyncWrapper(async(req,res)=>{
    
   const posts = await postModel.find({
     user:{$nin:[...followingIds,userId]}
-  }).populate("user" , "username fullname email").sort({ createdAt: -1 })
+  }).populate("user" , "username fullname email profilePhoto coverPhoto").sort({ createdAt: -1 })
 
   res.status(200).json({
     success:true,
@@ -114,9 +112,9 @@ const explorePostController = asyncWrapper(async(req,res)=>{
 
 const singlePostController = asyncWrapper(async(req,res)=>{
 
-  const postId = req.params.id;
+  const postId = req.params.postId;
 
-  const validPost = await postModel.findById(postId).populate("user","fullname username email");
+  const validPost = await postModel.findById(postId).populate("user","fullname username email profilePhoto coverPhoto");
 
   if(!validPost){
     throw new AppError("post not found" , 404)
@@ -138,7 +136,7 @@ const singlePostController = asyncWrapper(async(req,res)=>{
 
 const  deletePostController = asyncWrapper(async(req,res)=>{
 
-  const postId = req.params.id;
+  const postId = req.params.postId;
   const userId = req.user._id;
 
   const validPost = await postModel.findById(postId);
@@ -165,6 +163,23 @@ const  deletePostController = asyncWrapper(async(req,res)=>{
 
 
 
+const getAllPostController = asyncWrapper(async(req,res)=>{
+
+  const userId = req.params.userId;
+  const validUser = await userModel.findById(userId)
+  if(!validUser){
+    throw new AppError("user not found" , 404)
+  }
+
+  const userPost = await postModel.find({user:userId}).sort({createdAt:-1}).populate("user" , "fullname username email profilePhoto coverPhoto");
+
+  res.status(200).json({
+    success:true,
+    message:"user posts fetched successfully",
+    data:userPost,
+    statusCode:200
+  })
+})
 
 
 
@@ -172,4 +187,5 @@ const  deletePostController = asyncWrapper(async(req,res)=>{
 
 
 
-module.exports = {createPostController ,feedPostController ,explorePostController ,singlePostController , deletePostController}
+
+module.exports = {createPostController ,feedPostController ,explorePostController ,singlePostController , deletePostController ,getAllPostController}

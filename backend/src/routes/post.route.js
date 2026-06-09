@@ -5,7 +5,7 @@ const {multerPostHandler} = require("../middlewares/multer.middleware")
 const checkObjectId = require("../validations/ObjectId.validator")
 const {postCreateValidation} = require("../validations/post.validator")
 
-const {createPostController ,feedPostController , explorePostController ,singlePostController , deletePostController }  =require("../controllers/post.controller")
+const {createPostController ,feedPostController , explorePostController ,singlePostController , deletePostController ,getAllPostController }  =require("../controllers/post.controller")
 
 
 const postRouter = express.Router();
@@ -85,7 +85,7 @@ postRouter.get('/explore' , identifyingUser , explorePostController)
  * 
  */
 
-postRouter.get('/:id' , identifyingUser , checkObjectId , singlePostController)
+postRouter.get('/:postId' , checkObjectId("postId") ,  identifyingUser  , singlePostController)
 
 
 
@@ -107,10 +107,28 @@ postRouter.get('/:id' , identifyingUser , checkObjectId , singlePostController)
  * 
  * @returns         {Object}  500 Internal server error
  */
-postRouter.delete('/:id' , identifyingUser , checkObjectId , deletePostController)
+postRouter.delete('/:postId' ,  checkObjectId("postId") , identifyingUser   , deletePostController)
 
 
 
+
+
+/**
+ * @description    us user ke posts
+ * @route       /api/posts/user/:userId 
+ * @method       GET 
+ * @access      Private
+ * 
+ * @param      {ObjectId} req.params.userId
+ * 
+ * @returns    {Object}  {200} successfully see the user's posts
+ * @returns    {Object}  {400} validation failed error
+ * 
+ * @returns    {Object}  {500} Internal sever error
+ *  
+ */
+
+postRouter.get("/user/:userId" , checkObjectId("userId") ,  identifyingUser , getAllPostController )
 
 
 
