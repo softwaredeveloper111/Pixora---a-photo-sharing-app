@@ -1,19 +1,15 @@
-import axios from "../../../axios";
-import {ApiError} from "../../shared/AppError";
-
-
-
-
+import axiosInstance from "../../../axios";
 
 
 /**
  * @description  register a new user
- * @route       http://localhost:3000/api/auth/register
+ * @route       https://pixora-photo-sharing-app.onrender.com/api/auth/register
  * @method       POST 
  * 
+ * @params     {String} fullname
  * @params     {String} username
  * @params     {String} email
- * @param      {string} password
+ * @params     {string} password
  * 
  * 
  * @returns   {Object} 400 validation error
@@ -24,53 +20,19 @@ import {ApiError} from "../../shared/AppError";
  */
 
 export async function registerUserAPI(data){
-  try {
-
-
-    const response = await axios.post("/api/auth/register",data)
-    if(response.data?.success===false){
-       throw new ApiError(
-        response.data.message || "Failed to register user",
-        response.data.statusCode || 400
-      ); 
-    }
-
-   return response.data
-
-
-  } catch (error) {
-
-     if (error instanceof ApiError) throw error;
-
-     if(error.response){
-      throw new ApiError(
-        error.response.data?.message || "Server error occurred",
-        error.response.status
-      );
-   
-    }
-
-
-     if(error.request){
-          throw new ApiError("Network error: Server not reachable", 503);
-    }
-
-      throw new ApiError("Something went wrong", 500);
-     
-  }
+  const res = await axiosInstance.post("/api/auth/register",data);
+  return res.data
 }
-
-
 
 
 
 /**
  * @description   login a user
- * @route        http://localhost:3000/api/auth/login
+ * @route         https://pixora-photo-sharing-app.onrender.com/api/auth/login
  * @method        POST
  * 
  * @param         {String} identifiers
- * @param        {String} password
+ * @param         {String} password
  * 
  * @returns       {Object} 200 user loggedin successfully
  * @returns       {Object} 401 invalid credentials
@@ -81,40 +43,42 @@ export async function registerUserAPI(data){
  */
 
 export async function loginUserAPI(data){
-  try {
-
-    const response = await axios.post("/api/auth/login",data)
-     
-    if(response.data?.success===false){
-       throw new ApiError(
-        response.data.message || "Failed to register user",
-        response.data.statusCode || 400
-      ); 
-    }
-
-    return response.data
-   
-    
-  } catch (error) {
-
-    if (error instanceof ApiError) throw error;
-
-     if(error.response){
-      throw new ApiError(
-        error.response.data?.message || "Server error occurred",
-        error.response.status
-      );
-    }
-
-
-     if(error.request){
-          throw new ApiError("Network error: Server not reachable", 503);
-     }
-
-    throw new ApiError("Something went wrong", 500);
-     
-  
-  }
+  const res = await axiosInstance.post("/api/auth/login",data)
+  return res.data
 }
 
 
+/**
+ * @description   get user profile
+ * @route         https://pixora-photo-sharing-app.onrender.com/api/auth/me
+ * @method        GET
+ * 
+ * @returns       {Object} 200 successfully get user profile
+ * @returns       {Object} 401 unthorized access
+ * 
+ * @return        {Object} 500 internal server error 
+ */
+
+export async function getMeUserProfileAPI(){
+  const res = await axiosInstance.get("/api/auth/login");
+  return res.data
+}
+
+
+
+
+/**
+ * @description   logout user successfully
+ * @route         https://pixora-photo-sharing-app.onrender.com/api/auth/logout
+ * @method        GET
+ * 
+ * @returns       {Object} 200 successfully logout get user profile
+ * @returns       {Object} 401 unthorized access
+ * 
+ * @return        {Object} 500 internal server error 
+ */
+
+export async function logoutOutUserAPI(){
+  const res = await axiosInstance.get("/api/auth/logout");
+  return res.data
+}
