@@ -55,12 +55,12 @@ const registerUser = await userModel.findOne({
 }).select("+password");
 
 if(!registerUser){
-  throw new ApiError("invalid credential | user not found" , 401);
+  throw new ApiError("invalid credential" , 401);
 }
 
 const matchPassword = await registerUser.comparePassword(password);
 if(!matchPassword){
-  throw new ApiError("invalid credentials | wrong password ",401)
+  throw new ApiError("invalid credentials",401)
 }
 
 const token = jwt.sign({id:registerUser._id} , config.JWT_SECRET_KEY , {expiresIn:"1d"});
