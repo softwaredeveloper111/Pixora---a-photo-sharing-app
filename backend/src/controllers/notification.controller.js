@@ -1,7 +1,8 @@
 const notificationModel = require("../models/notification.model");
-const asyncWrapper = require("../middlewares/asyncWrapper.middleware");
-const AppError = require("../utils/AppError");
 
+const asyncWrapper = require("../utils/asyncWrapper");
+const ApiError = require('../utils/ApiError');
+const ApiResponse = require("../utils/ApiResponse");
 
 
 const getYouAllNotifications = asyncWrapper(async(req,res)=>{

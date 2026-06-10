@@ -1,5 +1,9 @@
 const express = require("express");
 const cookieParser = require("cookie-parser")
+const cors = require("cors")
+const config = require("./config/config")
+
+
 
 const authRouter = require("./routes/auth.route")
 const followRouter = require("./routes/follow.route")
@@ -12,7 +16,11 @@ const userRouter = require("./routes/user.route")
 const notificationRouter = require("./routes/notification.route")
 
 
+
+
+
 const errorHandler = require("./middlewares/errorHandler.middleware")
+
 
 
 
@@ -24,10 +32,16 @@ const app = express();
 
 
 
+
 /** application middlewares */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors({
+    origin:config.CLIENT_URL,
+    credentials:true
+}));
+
 
 
 
@@ -46,6 +60,8 @@ app.use("/api/notifications" , notificationRouter);
 
 
 
+
+
 /** healthcheck router */
 app.get("/health" , (req , res) => {
     res.status(200).json({status:"ok"})
@@ -53,8 +69,12 @@ app.get("/health" , (req , res) => {
 
 
 
+
+
 /** global error handler */
 app.use(errorHandler);
+
+
 
 
 

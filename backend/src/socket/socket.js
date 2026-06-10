@@ -1,7 +1,7 @@
 const { Server } = require("socket.io");
 const config = require("../config/config");
 const jwt = require("jsonwebtoken");
-const AppError = require("../utils/AppError");
+const AppError = require("../utils/ApiError");
 const userModel = require("../models/user.model");
 const messageModel = require("../models/message.model");
 

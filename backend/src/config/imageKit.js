@@ -1,7 +1,7 @@
 const  ImageKit = require('@imagekit/nodejs');
 const {toFile} = require("@imagekit/nodejs");
 const config = require("../config/config")
-const asyncWrapper = require("../middlewares/asyncWrapper.middleware")
+
 
 
 

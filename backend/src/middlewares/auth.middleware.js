@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/ApiError');
 const config = require('../config/config')
 const userModel = require("../models/user.model")
 const redis = require("../config/redis")

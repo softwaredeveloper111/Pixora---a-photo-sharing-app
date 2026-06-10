@@ -24,7 +24,7 @@ const AuthPage = () => {
 
     // Mock authentication: just redirect to Home page
     setError('');
-    navigate('/');
+    // navigate('/');
   };
 
   return (

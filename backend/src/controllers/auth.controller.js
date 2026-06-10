@@ -2,8 +2,9 @@ const userModel = require("../models/user.model");
 const followModel = require("../models/follow.model");
 const postModel = require("../models/post.model")
 
-const asyncWrapper = require("../middlewares/asyncWrapper.middleware");
-const AppError = require('../utils/AppError')
+const asyncWrapper = require("../utils/asyncWrapper");
+const ApiError = require('../utils/ApiError');
+const ApiResponse = require("../utils/ApiResponse");
 const jwt = require('jsonwebtoken')
 const config = require("../config/config");
 
@@ -23,7 +24,7 @@ const registerUserController = asyncWrapper(async(req,res)=>{
   });
 
   if(isUserAlreadyRegistered){
-    throw new AppError("User is already registered", 409);
+    throw new ApiError("User is already registered", 409);
   }
 
   const createdNewUser = await userModel.create({
@@ -35,13 +36,9 @@ const registerUserController = asyncWrapper(async(req,res)=>{
 
   const token = jwt.sign({id:createdNewUser._id}, config.JWT_SECRET_KEY, {expiresIn:"1d"});
   res.cookie("token",token, {httpOnly:true, secure:true,sameSite:"strict", maxAge:24*60*60*1000})
+  
 
-  res.status(201).json({
-    success:true,
-    message:"user registered successfully",
-    statusCode:201,
-    data:createdNewUser
-  })
+  return  res.status(201).json(new ApiResponse(201,createdNewUser,"user registered successfully"))
 })
 
 
@@ -58,23 +55,18 @@ const registerUser = await userModel.findOne({
 }).select("+password");
 
 if(!registerUser){
-  throw new AppError("invalid credential | user not found" , 401);
+  throw new ApiError("invalid credential | user not found" , 401);
 }
 
 const matchPassword = await registerUser.comparePassword(password);
 if(!matchPassword){
-  throw new AppError("invalid credentials | wrong password ",401)
+  throw new ApiError("invalid credentials | wrong password ",401)
 }
 
 const token = jwt.sign({id:registerUser._id} , config.JWT_SECRET_KEY , {expiresIn:"1d"});
 res.cookie("token",token, {httpOnly:true, secure:true,sameSite:"strict", maxAge:24*60*60*1000});
 
-return res.status(200).json({
-  success:true,
-  statusCode:200,
-  message:"user logged in successfully",
-  data:registerUser
-})
+return res.status(200).json(new ApiResponse(200,registerUser,"user logged in successfully"))
 
 })
 
@@ -94,12 +86,7 @@ const getMeUserController = asyncWrapper(async(req,res)=>{
   user.posts = posts;
 
 
-  return res.status(200).json({
-    success:true,
-    message:"user get successfully",
-    statusCode:200,
-    data:user
-  }) 
+  return res.status(200).json(new ApiResponse(200,user,"user get successfully")) 
 
 })
 
@@ -117,12 +104,7 @@ const logoutUserController = asyncWrapper(async(req,res)=>{
     sameSite: "none",
   });
 
-  return res.status(200).json({
-    success:true,
-    message:"user logged out successfully",
-    statusCode:200,
-    data:null
-  })
+  return res.status(200).json(new ApiResponse(200,null,"user logged out successfully"))
 })
 
 

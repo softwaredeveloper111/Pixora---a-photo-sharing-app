@@ -1,8 +1,9 @@
 const commentModel = require("../models/comment.model")
 const postModel = require("../models/post.model")
 
-const asyncWrapper = require("../middlewares/asyncWrapper.middleware");
-const AppError = require("../utils/AppError")
+const asyncWrapper = require("../utils/asyncWrapper");
+const ApiError = require('../utils/ApiError');
+const ApiResponse = require("../utils/ApiResponse");
 
 
 

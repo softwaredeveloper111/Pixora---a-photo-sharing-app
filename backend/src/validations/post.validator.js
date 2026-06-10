@@ -1,6 +1,6 @@
 const {body, param, query} = require("express-validator")
 const expressValidatorHandleError = require("./error.validator")
-const AppError = require("../utils/AppError")
+const AppError = require("../utils/ApiError")
 
 
 
