@@ -13,13 +13,13 @@ const identifyingUser = async (req, res, next) => {
    const token = req.cookies?.token;
 
   if (!token) {
-    throw new AppError("Unauthorized access | token not found", 401);
+    throw new AppError("token not found", 401);
   }
 
   const isBlackListTOken = await redis.get(token);
 
   if(isBlackListTOken){
-    throw new AppError("unauthorized access | invalid token", 401)
+    throw new AppError("invalid token", 401)
   }
 
   const decoded = jwt.verify(token, config.JWT_SECRET_KEY);
@@ -27,7 +27,7 @@ const identifyingUser = async (req, res, next) => {
   const getUser = await userModel.findById(decoded.id);
 
   if (!getUser) {
-    throw new AppError("Unthorized access | Invalid credentials", 401);
+    throw new AppError("invalid credentials", 401);
   }
 
   req.user = getUser;
@@ -36,7 +36,7 @@ const identifyingUser = async (req, res, next) => {
   
  } catch (error) {
 
-    throw new AppError("unthorized access | invalid token" , 401)
+    throw new AppError("invalid token" , 401)
  }
 
 };
