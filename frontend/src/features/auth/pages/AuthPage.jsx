@@ -1,8 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/AuthPage.module.css';
+import useAuth from "../hooks/useAuth"
+import Loader from "../../shared/Loader"
+
 
 const AuthPage = () => {
+
+  const { 
+    loading,
+    error,
+
+    registerUser,
+    loginUser,
+    } = useAuth();
+
+
   const [isLogin, setIsLogin] = useState(true);
 
   // Login State
@@ -54,20 +67,29 @@ const AuthPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (isLogin) {
       if (validateLogin()) {
-        console.log("Login Data:", { identifiers, password: loginPassword });
         setErrors({});
-        // navigate('/');
+        try {
+          console.log({ identifiers, password: loginPassword })
+          await loginUser({ identifiers, password: loginPassword });
+          navigate('/');
+        } catch (err) {
+          console.error("Login failed", err);
+        }
       }
     } else {
       if (validateRegister()) {
-        console.log("Register Data:", { fullName, username, email, password: registerPassword });
         setErrors({});
-        // navigate('/');
+        try {
+          await registerUser({ fullName, username, email, password: registerPassword });
+          navigate('/');
+        } catch (err) {
+          console.error("Registration failed", err);
+        }
       }
     }
   };
@@ -76,6 +98,10 @@ const AuthPage = () => {
     setIsLogin(!isLogin);
     setErrors({});
   };
+
+  if(loading){
+    return <Loader />;
+  }
 
   return (
     <div className={styles.authContainer}>
@@ -88,6 +114,8 @@ const AuthPage = () => {
               : 'Create an account to start sharing photos.'}
           </p>
         </div>
+
+        {error && typeof error === 'string' && <div className={styles.errorMessage}>{error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.authForm} noValidate>
           {!isLogin && (

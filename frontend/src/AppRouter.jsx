@@ -6,21 +6,27 @@ import NotificationsPage from './features/notification/pages/NotificationsPage';
 import MessagesPage from './features/message/pages/MessagesPage';
 import ProfilePage from './features/profile/pages/ProfilePage';
 import Layout from './features/home/components/Layout';
+import ProtectedRoute from './features/shared/protectedRoute';
+import GuestRoute from './features/shared/guestRoute';
 
 const AppRouter = () => {
   return (
     <Routes>
       {/* Public Auth Route */}
-      <Route path="/auth" element={<AuthPage />} />
+      <Route element={<GuestRoute redirectTo="/" />}>
+        <Route path="/auth" element={<AuthPage />} />
+      </Route>
       
       {/* App Shell (Authenticated Layout Wrapper) */}
-      <Route element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path="/messages" element={<MessagesPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/:username" element={<ProfilePage />} />
+      <Route element={<ProtectedRoute redirectTo="/auth" />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/messages" element={<MessagesPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:username" element={<ProfilePage />} />
+        </Route>
       </Route>
 
       {/* Redirect all unmatched routes to Feed */}
