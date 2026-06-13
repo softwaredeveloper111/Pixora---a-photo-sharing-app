@@ -1,24 +1,11 @@
-
-import AppRouter from './AppRouter'
-import {registerUserAPI} from "./features/auth/services/auth.api"
-
+import AppRouter from "./AppRouter";
 
 const App = () => {
- 
-  console.log(registerUserAPI({
-    fullname:"Samuykta kapoor",
-    username:"samuu",
-    email:"samuykta123@gmail.com",
-    password:"sammu1234"
-  }))
-
   return (
-   
-   <div>
-       <AppRouter />
-   </div>
+    <div>
+      <AppRouter />
+    </div>
+  );
+};
 
-  )
-}
-
-export default App
+export default App;

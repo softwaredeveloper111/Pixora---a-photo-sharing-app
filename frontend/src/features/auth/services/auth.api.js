@@ -60,7 +60,7 @@ export async function loginUserAPI(data){
  */
 
 export async function getMeUserProfileAPI(){
-  const res = await axiosInstance.get("/api/auth/login");
+  const res = await axiosInstance.get("/api/auth/me");
   return res.data
 }
 
@@ -78,7 +78,7 @@ export async function getMeUserProfileAPI(){
  * @return        {Object} 500 internal server error 
  */
 
-export async function logoutOutUserAPI(){
-  const res = await axiosInstance.get("/api/auth/logout");
+export async function logoutUserAPI(){
+  const res = await axiosInstance.post("/api/auth/logout");
   return res.data
 }
